@@ -34,7 +34,7 @@ export class GildedRose {
 
   private decrementQualityByDiiferentName(item: Item , itemName: string){
     if (item.name != itemName) {
-      item.quality --;
+      item.sellIn --;
     }
   }
   private updateNormalItem(item: Item) {
@@ -59,37 +59,46 @@ export class GildedRose {
         this.updateNormalItem(item);
         break;
     }
+   
   }
 
+  private updateQualityIfNegativeSellin(item: Item) {
+    switch (item.name) {
+      case 'Aged Brie':
+        this.updateQualityAgedBrie(item);
+        break;
+      case 'Backstage passes to a TAFKAL80ETC concert':
+        item.quality = 0;
+        break;
+      default:
+        this.updateNormalItem(item);
+        break;
+
+    }
+   
+  }
 
   private incrimentQuality (item: Item , maxQuality : number, maxSellin : number){
     if (item.sellIn < maxSellin) {
       if (item.quality < maxQuality) {
-        item.quality = item.quality + 1
+        item.quality ++;
       }
     }
   }
 
   updateQuality() {
-    this.items.map( (item)  =>  {
+    this.items.forEach ( item => {
     this.updateItemQuality(item);
-    this.decrementQualityByDiiferentName(item,'Sulfuras, Hand of Ragnaros' )
-      if (this.items[i].sellIn < 0) {
-        if (this.items[i].name != 'Aged Brie') {
-          if (this.items[i].name != 'Backstage passes to a TAFKAL80ETC concert') {
-            if (this.items[i].quality > 0) {
-              this.decrementQualityByDiiferentName(item,'Sulfuras, Hand of Ragnaros' );
-            }
-          } else {
-            this.items[i].quality = this.items[i].quality - this.items[i].quality
-          }
-        } else {
-          if (this.items[i].quality < 50) {
-            this.items[i].quality = this.items[i].quality + 1
-          }
-        }
+    this.decrementQualityByDiiferentName(item,'Sulfuras, Hand of Ragnaros' );
+    
+      if (item.sellIn < 0) {
+      this.updateQualityIfNegativeSellin(item);
       }
+      
     });
+
+    console.log("itemitem",this.items);
+    
 
     return this.items;
   }
