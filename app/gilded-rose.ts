@@ -90,7 +90,7 @@ export class GildedRose {
   updateQuality() {
     this.items.forEach((item) => {
       this.updateItemQuality(item);
-      this.decrementQualityByDiiferentName(item, "Sulfuras, Hand of Ragnaros");
+      this.decrementQualityByDiiferentName(item, itemName.SULFURAS);
 
       if (item.sellIn < 0) {
         this.updateQualityIfNegativeSellin(item);
