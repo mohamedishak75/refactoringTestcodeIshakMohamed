@@ -95,10 +95,7 @@ export class GildedRose {
       this.updateQualityIfNegativeSellin(item);
       }
       
-    });
-
-    console.log("itemitem",this.items);
-    
+    });  
 
     return this.items;
   }
