@@ -10,13 +10,18 @@ export class Item {
   }
 }
 
+enum itemName {
+  AGEDBRIE = "Aged Brie",
+  BACKSTAGE = "Backstage passes to a TAFKAL80ETC concert",
+  SULFURAS = "Sulfuras, Hand of Ragnaros",
+}
+
 export class GildedRose {
   items: Array<Item>;
 
   constructor(items = [] as Array<Item>) {
     this.items = items;
   }
-
 
   private updateQualityAgedBrie(item: Item) {
     if (item.quality < 50) {
@@ -27,14 +32,14 @@ export class GildedRose {
   private updateBackstagePass(item: Item) {
     if (item.quality < 50) {
       item.quality++;
-      this.incrimentQuality(item,50,11);
-      this.incrimentQuality(item,50,6);
+      this.incrimentQuality(item, 50, 11);
+      this.incrimentQuality(item, 50, 6);
     }
   }
 
-  private decrementQualityByDiiferentName(item: Item , itemName: string){
+  private decrementQualityByDiiferentName(item: Item, itemName: string) {
     if (item.name != itemName) {
-      item.sellIn --;
+      item.sellIn--;
     }
   }
   private updateNormalItem(item: Item) {
@@ -43,59 +48,54 @@ export class GildedRose {
     }
   }
 
-
   private updateItemQuality(item: Item) {
     switch (item.name) {
-      case 'Aged Brie':
+      case itemName.AGEDBRIE:
         this.updateQualityAgedBrie(item);
         break;
-      case 'Backstage passes to a TAFKAL80ETC concert':
+      case itemName.BACKSTAGE:
         this.updateBackstagePass(item);
         break;
-      case 'Sulfuras, Hand of Ragnaros':
-        //  rien a faire 
+      case itemName.SULFURAS:
+        //  rien a faire
         return;
       default:
         this.updateNormalItem(item);
         break;
     }
-   
   }
 
   private updateQualityIfNegativeSellin(item: Item) {
     switch (item.name) {
-      case 'Aged Brie':
+      case itemName.AGEDBRIE:
         this.updateQualityAgedBrie(item);
         break;
-      case 'Backstage passes to a TAFKAL80ETC concert':
+      case itemName.BACKSTAGE:
         item.quality = 0;
         break;
       default:
         this.updateNormalItem(item);
         break;
-
     }
-   
   }
 
-  private incrimentQuality (item: Item , maxQuality : number, maxSellin : number){
+  private incrimentQuality(item: Item, maxQuality: number, maxSellin: number) {
     if (item.sellIn < maxSellin) {
       if (item.quality < maxQuality) {
-        item.quality ++;
+        item.quality++;
       }
     }
   }
 
   updateQuality() {
-    this.items.forEach ( item => {
-    this.updateItemQuality(item);
-    this.decrementQualityByDiiferentName(item,'Sulfuras, Hand of Ragnaros' );
-    
+    this.items.forEach((item) => {
+      this.updateItemQuality(item);
+      this.decrementQualityByDiiferentName(item, "Sulfuras, Hand of Ragnaros");
+
       if (item.sellIn < 0) {
-      this.updateQualityIfNegativeSellin(item);
+        this.updateQualityIfNegativeSellin(item);
       }
-      
-    });  
+    });
 
     return this.items;
   }
